@@ -30,7 +30,7 @@ We are using:
 - elastic net mesa expression prediction models
 http://predictdb.org/
 
-### Download our Pipeline and test data:
+### Download our MetaXcan pipeline and test data:
 
      git clone https://github.com/ashleymulford/MetaXcan-Pipeline
 
