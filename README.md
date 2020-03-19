@@ -24,7 +24,7 @@ Description of pipeline here
        git clone https://github.com/hakyimlab/MetaXcan
        
 ### Download Models:
-### http://predictdb.org/
+#### http://predictdb.org/
 We are using:
 - gtex v8 mashr expression prediction models
 - gtex v8 elastic net expression prediction models
