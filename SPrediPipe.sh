@@ -1,4 +1,4 @@
-software="~/software"
+software="~/MetaXcan/software"
 model_path=
 GWAS_file=
 snp_col="rs"
