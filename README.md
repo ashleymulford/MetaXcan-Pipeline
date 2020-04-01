@@ -41,8 +41,8 @@ After cloning the MetaXcan pipeline, please move into this directory with
     cd MetaXcan-Pipeline
 
 
-## Running with raw genotypes and phenotypes:
+### Running with raw genotypes and phenotypes:
 
 
 
-## Running with GWAS Summary Statistics:
+### Running with GWAS Summary Statistics:
