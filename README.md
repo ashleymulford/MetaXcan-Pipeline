@@ -35,5 +35,14 @@ We are using:
      git clone https://github.com/ashleymulford/MetaXcan-Pipeline
 
     
-    
+# How to Run
+After cloning the MetaXcan pipeline, please move into this directory with
 
+    cd MetaXcan-Pipeline
+
+
+## Running with raw genotypes and phenotypes:
+
+
+
+## Running with GWAS Summary Statistics:
