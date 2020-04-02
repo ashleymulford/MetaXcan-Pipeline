@@ -3,7 +3,7 @@ import argparse
 
 #Method to run Predict.py, loops through all dbs specified
 def predict(db_dir, mashr, scripts_dir, geno_path, dos_type, sample_path, out_prefix):
-  os.system("for db in " + db_dir + "*.db;   do    prefix=${db#" + db_dir + "};   prefix=${prefix%.db};   python3 " + scripts_dir + "Predict.py --model_db_path $db   " + mashr + "   --vcf_genotypes " + geno_path + "   --vcf_mode " + dos_type + "   --text_sample_ids " + sample_path + "   --prediction_output predict_output/" + out_prefix + "_${prefix}_predict.txt   --prediction_summary_output predict_output/" + out_prefix + "_${prefix}_summary.txt   --verbosity 9   --throw; done")
+  os.system("for db in " + db_dir + "*.db;   do    prefix=${db#" + db_dir + "};   prefix=${prefix%.db};   python3 " + scripts_dir + "Predict.py --model_db_path $db   " + mashr + "   --text_genotypes " + geno_path + "   --vcf_mode " + dos_type + "   --text_sample_ids " + sample_path + "   --prediction_output predict_output/" + out_prefix + "_${prefix}_predict.txt   --prediction_summary_output predict_output/" + out_prefix + "_${prefix}_summary.txt   --verbosity 9   --throw; done")
   
 db_dir = "/data/amulford/gtex_v8_elastic_net/eqtl_dbs/"
 scripts_dir = "/data/amulford/MetaXcan/software/"
