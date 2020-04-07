@@ -56,7 +56,7 @@ db_dir = p.db_dir
 if p.mashr:
   mashr = "--model_db_snp_key varID"
 else:
-  masher = ""
+  mashr = ""
 scripts_dir = p.scripts_dir
 geno_path = p.geno_path
 sample_path = p.sample_path
