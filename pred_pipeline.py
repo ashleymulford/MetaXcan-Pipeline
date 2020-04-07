@@ -6,13 +6,13 @@ def predict(db_dir, mashr, scripts_dir, geno_path, sample_path, pred_out_dir, ou
   os.system("for db in " + db_dir + "*.db;   do    prefix=${db#" + db_dir + "};   prefix=${prefix%.db};   python3 " + scripts_dir + "Predict.py --model_db_path $db   " + mashr + "   --text_genotypes " + geno_path + "   --text_sample_ids " + sample_path + "   --prediction_output " + pred_out_dir + out_prefix + "_${prefix}_predict.txt   --prediction_summary_output " + pred_out_dir + out_prefix + "_${prefix}_summary.txt   --verbosity 9   --throw; done")
   
 #Testing:
-db_dir = "/data/amulford/gtex_v8_elastic_net/eqtl_dbs/"
-mashr = ""
-scripts_dir = "/data/amulford/MetaXcan/software/"
-geno_path = "/data/amulford/dosages/chr*.txt.gz"
-sample_path = "/data/amulford/genotypes/samples.txt"
-out_prefix = "YRI"
-pred_out_dir = "predict_output/"
+#db_dir = "/data/amulford/gtex_v8_elastic_net/eqtl_dbs/"
+#mashr = ""
+#scripts_dir = "/data/amulford/MetaXcan/software/"
+#geno_path = "/data/amulford/dosages/chr*.txt.gz"
+#sample_path = "/data/amulford/genotypes/samples.txt"
+#out_prefix = "YRI"
+#pred_out_dir = "predict_output/"
 
 
 #Method for PrediXcanAssociation.py
