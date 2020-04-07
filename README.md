@@ -42,10 +42,6 @@ Additionally, be sure to leave the models in the folders them come in once those
 
     
 # How to Run
-After cloning the MetaXcan pipeline, please move into this directory with
-
-    cd MetaXcan-Pipeline
-
 For more information on how to run, please refer to our wiki.
 
 
