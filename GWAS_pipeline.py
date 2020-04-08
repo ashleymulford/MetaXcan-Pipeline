@@ -12,6 +12,7 @@ p.add_argument("--noneffect","--noneffect_col", default="noneffect_allele", help
 p.add_argument("--phenotype", "--beta", default="beta", help="name of the column containing the phenotype data in the GWAS summary statistics")
 p.add_argument("-p","--p_val", default="p_value", help="name of the column containing the p-value in the GWAS summary statistics")
 p.add_argument("--snp_cov", required=True, help="file containing SNP covariance which comes in the model download (*_covariance.txt)")
+p.add_argument("--cutoff_threshold", default=0.4, help="threshold of variance eigenvalues when truncating SVD")
 
 a = p.parse_args()
 # Needed args
@@ -25,6 +26,7 @@ phenotype = a.phenotype
 p_val = a.p_val
 output = a.output
 snp_cov = a.snp_cov
+cutoff = a.cutoff_threshold
 
 # TODO check paths & files
 
@@ -37,10 +39,15 @@ if output[-1] == "/":
 	output = output[:-1]
 
 # Call SPrediXcan
-#for file in os.listdir(model):
-#	if file.endswith(".db"):
-#		tissue = file[:-3]
-#		os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+output+"/"+tissue+".csv")
+for file in os.listdir(model):
+	if file.endswith(".db"):
+		tissue = file[:-3]
+		os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
+			  " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
+			  " --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+output+"/"+tissue+"_predict.csv --throw")
 
 # Call SMultiXcan
-os.system("python3 "+software+"/SMulTiXcan.py --models_folder "+model+" --models_name_pattern 'en_(.*).db' --snp_covariance "+snp_cov+" --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+" --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+output+" --metaxcan_filter '.*csv' --snp_covariance "+snp_cov+" --output "+output+"/SMulTiXcan.txt")
+os.system("python3 "+software+"/SMulTiXcan.py --models_folder "+model+" --models_name_pattern '(.*).db' --snp_covariance "+snp_cov+" --gwas_file "+GWAS+" --snp_column "+snp_col+
+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+" --beta_column "+phenotype+" --pvalue_column "+p_val+
+" --metaxcan_folder "+output+" --metaxcan_filter '(.*)_predict.csv' --metaxcan_file_name_parse_pattern '()(.*)_predict.csv' --cutoff_threshold "+str(cutoff)+
+" --output "+output+"/SMulTiXcan.txt --throw")
