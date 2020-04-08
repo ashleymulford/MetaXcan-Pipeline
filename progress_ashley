@@ -1,7 +1,10 @@
 Completed:
-#1 Downloaded all scripts, dbs, test data
+#Downloaded all scripts, dbs, test data
+#Predict works with en
+#Assoc works with en
+#pipeline script set to run, all flags work
 
-Next Steps:
-#2 Run PrediXcan
-#3 Run MulTiXcan
-#4 Write python script that will run both together
+
+#Test with MESA models
+#Working on MulTiXcan output
+#Working on R scripts
