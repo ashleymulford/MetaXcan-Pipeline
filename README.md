@@ -42,6 +42,9 @@ Additionally, be sure to leave the models in the folders them come in once those
 
     
 # How to Run
+### Key Assumption:
+This script assumes that outputs will be stored in corresponing directories. Predict.py outputs, PrediXcanAssociation.py outputs, S-PrediXcan.py outputs, MulTiXcan.py output, and S-MulTiXcan.py output must be each be stored in different directories for subsequent plotting to be successful. Please make these directories prior to running and specify them as arugments using the corresponding flags, see wiki for details.
+
 ## Using Test Data:
 
 
