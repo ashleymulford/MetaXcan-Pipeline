@@ -4,7 +4,7 @@ import argparse
 from os import listdir
 from os.path import isfile, join
 
-#combine association output into single dataframe
+#combine PrediXcanAssociation outputs into single dataframe
 def combine_assoc(assoc_out_dir):
   files = [f for f in listdir(assoc_out_dir) if isfile(join(assoc_out_dir, f))]
   full_paths = []
@@ -21,7 +21,8 @@ def combine_assoc(assoc_out_dir):
     df_list.append(assoc)
   combo = pd.concat(df_list)
   return combo
-    
+
+#read in MulTiXcan output
 def get_multi(multi_out_dir):
   files = [f for f in listdir(multi_out_dir) if isfile(join(multi_out_dir, f))]
   for file in files:
@@ -29,12 +30,10 @@ def get_multi(multi_out_dir):
     multi = pd.read_csv(path, delimiter = "\t")
   return multi
   
-
-def get_sig(combo):
-  sig = combo.loc[combo['pvalue'] <= .0001]
+#create new data frame with only significant genes, filtered by pval threshold
+def get_sig(combo, pval):
+  sig = combo.loc[combo['pvalue'] <= pval]
   return sig
-
-
 
 
 #Create flags:
@@ -43,22 +42,23 @@ parser.add_argument("--assoc_out_dir", required=True, help = "directory the Pred
 parser.add_argument("--multi_out_dir", required=True, help = "directory the MulTiXcan assocation output will go into")
 parser.add_argument("--out_prefix", required=True, help = "prefix for output files")
 parser.add_argument("--pheno_prefix", required=True, help = "name of phenotype, will be added to association output file names")
+parser.add_argument("--pval", required=True, help = "p-value threshold, will only analyze genes with p-values that meet this threshold")
 
+#parse arguments
 p = parser.parse_args()
 assoc_out_dir = p.assoc_out_dir
 multi_out_dir = p.multi_out_dir
 out_prefix = p.out_prefix
 pheno_prefix = p.pheno_prefix
+pval = p.pval
 
-
+#run methods
 assoc_combo = combine_assoc(assoc_out_dir)
 multi = get_multi(multi_out_dir)
+assoc_sig = get_sig(assoc_combo, pval)
+multi_sig = get_sig(multi, pval)
 
-assoc_combo.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_combo.txt", sep = "\t", index = None)
-
-assoc_sig = get_sig(assoc_combo)
-multi_sig = get_sig(multi)
-
+#output dataframes with signifcant genes:
 assoc_sig.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt", sep = "\t", index = None)
 multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_multi_sig.txt", sep = "\t", index = None)
 
