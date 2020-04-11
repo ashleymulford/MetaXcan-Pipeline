@@ -1,10 +1,11 @@
 Completed:
 #Downloaded all scripts, dbs, test data
-#Predict works with en
-#Assoc works with en
+#Predict works
+#Assoc works
+#MulTiXcan works
 #pipeline script set to run, all flags work
 
-
+#Add sorting to prep script
 #Test with MESA models
 #Working on MulTiXcan output
 #Working on R scripts
