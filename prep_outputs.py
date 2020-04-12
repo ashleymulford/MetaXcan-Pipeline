@@ -44,7 +44,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--assoc_out_dir", required=True, help = "directory the PrediXcan association output will go into")
 parser.add_argument("--multi_out_dir", required=True, help = "directory the MulTiXcan assocation output will go into")
 parser.add_argument("--out_prefix", required=True, help = "prefix for output files")
-parser.add_argument("--pheno_prefix", required=True, help = "name of phenotype, will be added to association output file names")
+parser.add_argument("--pheno_prefix", help = "name of phenotype, required if dosage_pipeline was used")
 parser.add_argument("--pval", default=0.001, help = "p-value threshold, will only analyze genes with p-values that meet this threshold")
 parser.add_argument("--gwas", action="store_true", help = "optional; specifies that gwas_pipeline.py was used")
 
@@ -66,8 +66,8 @@ multi_sig = get_sig(multi, pval)
 
 #output dataframes with signifcant genes:
 if (gwas):
-  assoc_sig.to_csv(out_prefix+"_"+pheno_prefix+"_sassoc_sig.txt", sep = "\t", index = None)
-  multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_smulti_sig.txt", sep = "\t", index = None)
+  assoc_sig.to_csv(out_prefix+"_sassoc_sig.txt", sep = "\t", index = None)
+  multi_sig.to_csv(out_prefix+"_smulti_sig.txt", sep = "\t", index = None)
 else:
   assoc_sig.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt", sep = "\t", index = None)
   multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_multi_sig.txt", sep = "\t", index = None)
