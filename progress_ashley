@@ -6,7 +6,9 @@ Completed:
 #pipeline script set to run, all flags work
 
 #Next Steps
-#Add sorting to prep script
+#Prep script:
+  #Add sorting by pvals to sig files
+  #change flags or have sam add pheno prefix to gwas_pipeline
 #Work on R scripts - QQ and Manhattan plots
   #use args to get file name
   #may need to transfer BP chrome
