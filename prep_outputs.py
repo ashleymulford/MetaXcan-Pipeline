@@ -36,6 +36,7 @@ def get_multi(multi_out_dir):
 #create new data frame with only significant genes, filtered by pval threshold
 def get_sig(combo, pval):
   sig = combo.loc[combo['pvalue'] <= float(pval)]
+  sig = sig.sort_values(by=['pvalue'])
   return sig
 
 
