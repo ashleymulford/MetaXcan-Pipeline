@@ -15,9 +15,11 @@ MetaXcan Pipeline is designed to automate the scripts made by the Im lab at UChi
 - cyvcf2 (>=0.8.0)
 
 ### R 3.6.3 with packages:
+- data.table
 - dplyr
 - ggplot2
 - qqman
+- colorspace
 
 ### Download MetaXcan Scripts:
  
