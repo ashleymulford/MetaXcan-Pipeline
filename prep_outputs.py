@@ -88,9 +88,6 @@ else:
     multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_multi_sig.txt", sep = "\t", index = None)
     files_output.append(out_prefix+"_"+pheno_prefix+"_multi_sig.txt")
 
-
-print(files_output[0])
-
 file = open("sig_file_names.txt", "w")
 
 for item in files_output:
