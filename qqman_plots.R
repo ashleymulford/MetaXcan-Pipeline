@@ -24,7 +24,7 @@ sig_files<-fread("sig_file_names.txt", header = FALSE)
 
 fnames<-sig_files$V1
 
-chrom<-fread("/data/amulford/chrom_anno_gtexv8.txt")
+chrom<-fread("chrom_anno_gtexv8.txt")
 
 for (fname in fnames){
   sig_hits <- fread(fname)
