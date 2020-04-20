@@ -15,8 +15,9 @@ input_files<-fread("input_file_names_qqman.txt", header = FALSE)
 assoc_dir<-input_files$V1[1]
 multi_dir<-input_files$V1[2]
 out_prefix<-input_files$V1[3]
-if (exists(input_files$V1[4])){
-  pheno_prefix<-input_files$V1[4]
+chrom_anno_path<-input_files$V1[4]
+if (exists(input_files$V1[5])){
+  pheno_prefix<-input_files$V1[5]
 }
 
 
@@ -24,7 +25,7 @@ sig_files<-fread("sig_file_names.txt", header = FALSE)
 
 fnames<-sig_files$V1
 
-chrom<-fread("chrom_anno_gtexv8.txt")
+chrom<-fread(chrom_anno_path)
 
 for (fname in fnames){
   sig_hits <- fread(fname)
