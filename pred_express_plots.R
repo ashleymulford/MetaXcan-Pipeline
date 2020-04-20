@@ -6,7 +6,7 @@ library(ggplot2)
 #function to paste
 "%&%" = function(a,b) paste(a,b,sep="")
 
-input_files<-fread("input_file_names.txt", header = FALSE)
+input_files<-fread("input_file_names_pred.txt", header = FALSE)
 
 pheno_path<-input_files$V1[1]
 pred_dir<-input_files$V1[2]
@@ -57,8 +57,8 @@ for (name in names){
   pdf(out_prefix %&% "_" %&% pheno_prefix %&% "_" %&% gene_id %&% "_predicted_expression.pdf")
   print(ggplot(xy_info, aes_string(x = pheno_col , y = gene_id)) +
     geom_jitter(size = 0.75, color = "#ec328c") + 
-    geom_density_2d(color = "#ffbf24") + 
-    stat_smooth(method="lm", se = TRUE, fullrange = TRUE, color = "#8c1788") + 
+    geom_density_2d(color = "#1EA1E7") + 
+    stat_smooth(method="lm", se = TRUE, fullrange = TRUE, color = "#4DB94D") + 
     scale_x_continuous(name = "Predicted gene expression") + 
     scale_y_continuous(name = pheno_col) + 
     theme_bw() + 

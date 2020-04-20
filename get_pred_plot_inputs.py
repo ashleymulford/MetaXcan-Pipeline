@@ -20,7 +20,7 @@ pheno_col = p.pheno_col
 pheno_prefix = p.pheno_prefix
 
 
-file = open("input_file_names.txt", "w")
+file = open("input_file_names_pred.txt", "w")
 
 file.write(pheno_path + "\n")
 file.write(pred_out_dir + "\n")

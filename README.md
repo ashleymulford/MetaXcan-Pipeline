@@ -13,11 +13,16 @@ MetaXcan Pipeline is designed to automate the scripts made by the Im lab at UChi
 - h5py-cache (>=1.0.0)
 - bgen_reader (>=3.0.3)
 - cyvcf2 (>=0.8.0)
+- argparse
+- os
+- os.path
 
 ### R 3.6.3 with packages:
+- data.table
 - dplyr
 - ggplot2
 - qqman
+- colorspace
 
 ### Download MetaXcan Scripts:
  

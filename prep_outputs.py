@@ -1,4 +1,5 @@
 #Import necessary package
+#Import necessary package
 import pandas as pd
 import argparse
 from os import listdir
@@ -73,20 +74,19 @@ files_output = []
 
 #output dataframes with signifcant genes:
 if (gwas):
+  assoc_combo.to_csv(out_prefix+"_sassoc_all_tissues.txt", sep = "\t", index = None)
   assoc_sig.to_csv(out_prefix+"_sassoc_sig.txt", sep = "\t", index = None)
   files_output.append(out_prefix+"_sassoc_sig.txt")
   if multi_out_dir != " ":
     multi_sig.to_csv(out_prefix+"_smulti_sig.txt", sep = "\t", index = None)
     files_output.append(out_prefix+"_smulti_sig.txt")
 else:
+  assoc_combo.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_all_tissues.txt", sep = "\t", index = None)
   assoc_sig.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt", sep = "\t", index = None)
   files_output.append(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt")
   if multi_out_dir != " ":
     multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_multi_sig.txt", sep = "\t", index = None)
     files_output.append(out_prefix+"_"+pheno_prefix+"_multi_sig.txt")
-
-
-print(files_output[0])
 
 file = open("sig_file_names.txt", "w")
 
