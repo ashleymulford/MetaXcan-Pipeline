@@ -16,6 +16,7 @@ gen.add_argument("--assoc_out_dir", required=True, help="Output from PrediXcan.p
 gen.add_argument("--multi_out_dir", help="Output from MulTiXcan.py or SMulTiXcan.py")
 gen.add_argument("--pval", type=float, help="P-value cutoff for use in graphing results")
 gen.add_argument("--no_plot", action="store_true", help="Prevents the pipeline from generating plots")
+gen.add_argument("--chom_anno_path", help="Path to chrom_anno_gtexv*.txt for plotting")
 
 # Arguments for dosage
 dos = p.add_argument_group(title="Dosage",description="Flags for running MetaXcan based on a individual genotypes")
@@ -170,12 +171,13 @@ os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi
 # ### Run plotting ###
 # ####################
 if not arg.no_plot:
+    if not os.path.isfile(arg.chrom_anno_path)
+        raise FileNotFoundError("Chrom_anno file (--chrom_anno_path) is invalid while attempting to plot")
     os.system("python3 get_qqman_plot_inputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
-              " --out_prefix "+arg.out_prefix+" --pheno_prefix "+arg.pheno_prefix)
-    # TODO Check for chrom_anno_gtexv8.txt ??
-	os.system("R -f qqman_plots.R")
+              " --out_prefix "+arg.out_prefix+" --pheno_prefix "+arg.pheno_prefix+" --chrom_anno_path "+arg.chrom_anno_path)
+    os.system("Rscript qqman_plots.R")
 	
-	if not arg.gwas:
-        os.system("python3 get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
-		          " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix "+arg.pheno_prefix+" --out_prefix"+arg.out_prefix)
-	    os.system("R -f pred_express_plots.R")
+    if not arg.gwas:
+    os.system("python3 get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
+              " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix "+arg.pheno_prefix+" --out_prefix"+arg.out_prefix)
+    os.system("Rscript pred_express_plots.R")
