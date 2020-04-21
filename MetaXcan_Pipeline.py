@@ -179,7 +179,7 @@ else:
 gwas_flag = " --gwas" if arg.gwas else ""
 pval = " --pval "+arg.pval if arg.pval else ""
 os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
-          " --out_prefix "+arg.out_prefix+" --pheno_prefix '"+arg.pheno_prefix+"'"+pval+gwas_flag)
+          " --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+pval+gwas_flag)
 
 
 # ####################
