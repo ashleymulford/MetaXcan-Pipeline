@@ -26,7 +26,7 @@ dos.add_argument("--sample_path", default='', help="Path to the samples file")
 dos.add_argument("--pheno_path", default='', help="Path to the phenotype file")
 dos.add_argument("--pheno_col", help="Name of the column in the phenotype file with the phenotype data")
 dos.add_argument("--pheno_prefix", default='', help="Name of the phenotype to be added to the beginning of the association output file names")
-dos.add_argument("--predi_out_dir", help="Output from Predict.py")
+dos.add_argument("--pred_out_dir", help="Output from Predict.py")
 
 # Arguments for GWAS
 gwas = p.add_argument_group(title="GWAS",description="Flags for running MetaXcan based on GWAS summary statistics")
@@ -60,8 +60,8 @@ if arg.multi_out_dir[-1] == "/":
     arg.multi_out_dir = arg.multi_out_dir[:-1]
 if arg.geno_dir and arg.geno_dir[-1] == "/":
     arg.geno_dir = arg.geno_dir[:-1]
-if arg.predi_out_dir and arg.predi_out_dir[-1] == "/":
-    arg.predi_out_dir = arg.predi_out_dir[:-1]
+if arg.pred_out_dir and arg.pred_out_dir[-1] == "/":
+    arg.pred_out_dir = arg.pred_out_dir[:-1]
 
 ## Exceptions ##
 # software doesn't contain PrediXcan.py, Predict.py, MulTiXcan.py, SPrediXcan.py, SMultiXcan.py
@@ -110,8 +110,8 @@ if arg.gwas:
         warnings.warn("Phenotype column name (--pheno_col) specified, but will not be used")
     if arg.mashr:
         warnings.warn("Model type (--mashr) specified, but will not be used")
-    if arg.predi_out_dir:
-        warnings.warn("Predict.py output (--predi_out_dir) specified, but will not be used")
+    if arg.pred_out_dir:
+        warnings.warn("Predict.py output (--pred_out_dir) specified, but will not be used")
     if arg.pheno_prefix:
         warnings.warn("Phenotype prefix (--pheno_prefix) specified, but will not be used")
 
@@ -142,9 +142,9 @@ else:
     # arg.pheno_col
     if not arg.pheno_col:
         raise ValueError("Phenotype column (--pheno_col) is undefined while not using --gwas")
-    # arg.predi_out_dir
-    if not os.path.exists(arg.predi_out_dir):
-        raise NotADirectoryError("Predict.py output folder (--predi_out_dir) is invalid while not using --gwas")
+    # arg.pred_out_dir
+    if not os.path.exists(arg.pred_out_dir):
+        raise NotADirectoryError("Predict.py output folder (--pred_out_dir) is invalid while not using --gwas")
 
     ## Generate warnings if genotype flags were provided when dosage is run ##
     if arg.gwas:
