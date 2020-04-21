@@ -121,7 +121,6 @@ if arg.gwas:
              " --cutoff_eigen_ratio "+str(arg.cutoff_eigen_ratio)
     mesa = " --mesa" if arg.mesa else ""
     
-    print(str(arg.gwas_file))
     os.system("python3 GWAS_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --gwas_file "+arg.gwas_file+cutoff+
               " --snp_cov "+arg.snp_cov+" --snp_col "+arg.snp_col+" --effect "+arg.effect_col+" --noneffect "+arg.noneffect_col+
               " --beta "+arg.phenotype_col+" --p_val "+arg.p_val_col+" --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
@@ -148,7 +147,7 @@ else:
         raise NotADirectoryError("Predict.py output folder (--predi_out_dir) is invalid while not using --gwas")
 
     ## Generate warnings if genotype flags were provided when dosage is run ##
-    if arg.g:
+    if arg.gwas:
          warnings.warn("GWAS file (--gwas_file) specified, but will not be used")
     if arg.snp_cov:
          warnings.warn("SNP covariance file (--snp_cov) speficied, but will not be used")
@@ -160,9 +159,9 @@ else:
          warnings.warn("Effect allele column name (--effect_col) specified, but will not be used")
     if arg.noneffect_col:
          warnings.warn("Non-effect allele column name (--noneffect_col) specified, but will not be used")
-    if arg.beta_col:
+    if arg.phenotype_col:
          warnings.warn("Phenotype column name (--phenotype_col, --beta_col) specified, but will not be used")
-    if arg.p:
+    if arg.p_val_col:
         warnings.warn("P-value column name (-p, --p_val_col) specified, but will not be used")
 
     ## Format flags and run dosage_pipeline.py ##
