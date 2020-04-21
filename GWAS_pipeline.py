@@ -1,29 +1,29 @@
 import os, argparse
 
 # Method for running both
-def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotype, p_val, snp_cov, cutoff, out_prefix, mesa, predi_out_dir, multi_out_dir):
+def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotype, p_val, snp_cov, cutoff, out_prefix, mesa, assoc_out_dir, multi_out_dir):
 	# Call SPrediXcan
 	for file in os.listdir(model):
         	if file.endswith(".db"):
                 	tissue = file[:-3]
-#                	os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
-#                          	  " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
-#                          	  " --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+predi_out_dir+"/"+out_prefix+tissue+"_predict.csv"+
-#				  " --verbosity 9 --throw")
+                	os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
+                            " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
+                          	" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+assoc_out_dir+"/"+out_prefix+tissue+"_predict.csv"+
+                     				" --verbosity 9 --throw")
 	if not mesa:
 		# Call SMultiXcan
 		os.system("python3 "+software+"/SMulTiXcan.py --models_folder "+model+" --models_name_pattern '(.*).db' --snp_covariance "+snp_cov+
-			  " --gwas_file "+GWAS+" --snp_col "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
-			  " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+predi_out_dir+" --verbosity 9 --throw"+
-			  " --metaxcan_filter '"+out_prefix+"(.*)_predict.csv' --metaxcan_file_name_parse_pattern '"+out_prefix+"()(.*)_predict.csv'"+
-			  " --output "+multi_out_dir+"/SMulTiXcan.txt"+cutoff)
+			        " --gwas_file "+GWAS+" --snp_col "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
+			        " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+predi_out_dir+" --verbosity 9 --throw"+
+			        " --metaxcan_filter '"+out_prefix+"(.*)_predict.csv' --metaxcan_file_name_parse_pattern '"+out_prefix+"()(.*)_predict.csv'"+
+			        " --output "+multi_out_dir+"/SMulTiXcan.txt"+cutoff)
 
 # Parse args
 p = argparse.ArgumentParser()
 p.add_argument("-d","--db_dir", required=True, help="Directory for the model to predict against (both *.db and *.txt.gz files")
 p.add_argument("-s","--scripts_dir", default="MetaXcan/software", help="Directory containing the MetaXcan scripts, called 'software' in the MetaXcan package")
 p.add_argument("-g","--gwas_file", required=True, help="File containing the GWAS summary statistics (*.assoc.txt.gz)")
-p.add_argument("--predi_out_dir", default="MetaPipeOut", help="Output folder for SPrediXcan.py")
+p.add_argument("--assoc_out_dir", default="MetaPipeOut", help="Output folder for SPrediXcan.py")
 p.add_argument("--multi_out_dir", default="MetaPipeOut", help="Output folder for SMultiXcan.py")
 p.add_argument("--snp_col", default="variant_id", help="Name of the column containing SNP data in the GWAS summary statistics")
 p.add_argument("--effect","--effect_col", default="effect_allele", help="Name of the column containing the effect allele data in the GWAS summary statistics")
@@ -53,7 +53,7 @@ snp_cov = a.snp_cov
 cutoff = a.cutoff_threshold
 out_prefix = a.out_prefix
 mesa = a.mesa
-predi_out_dir = a.predi_out_dir if a.predi_out_dir else a.output if a.output else None
+assoc_out_dir = a.assoc_out_dir if a.assoc_out_dir else a.output if a.output else None
 multi_out_dir = a.multi_out_dir if a.multi_out_dir else a.output if a.output else None
 cutoff = " --cutoff_condition_number "+str(a.cutoff_condition_number) if a.cutoff_condition_number else \
 	 " --cutoff_threshold "+str(a.cutoff_threshold) if a.cutoff_threshold else \
@@ -61,8 +61,8 @@ cutoff = " --cutoff_condition_number "+str(a.cutoff_condition_number) if a.cutof
 	 " --cutoff_eigen_ratio "+str(a.cutoff_eigen_ratio)
 
 # Check paths & files
-if predi_out_dir is None:
-	raise ValueError("SPrediXcan.py output destination must be defined by --predi_out_dir")
+if assoc_out_dir is None:
+	raise ValueError("SPrediXcan.py output destination must be defined by --assoc_out_dir")
 if not mesa:
 	if multi_out_dir is None:
 		raise ValueError("SMultiXcan.py output destination must be defined by --multi_out_dir")
@@ -81,12 +81,12 @@ if software[-1] == "/":
 	software = software[:-1]
 if model[-1] == "/":
 	model = model[:-1]
-if predi_out_dir[-1] == "/":
-	predi_out_dir = predi_out_dir[:-1]
+if assoc_out_dir[-1] == "/":
+	assoc_out_dir = assoc_out_dir[:-1]
 if multi_out_dir[-1] == "/":
 	multi_out_dir = multi_our_dir[:-1]
 
 if __name__ == "__main__":
 	runGWAS_pipeline(software=software, model=model, snp_cov=snp_cov, GWAS=GWAS, snp_col=snp_col, effect=effect, noneffect=noneffect, \
-			 phenotype=phenotype, p_val=p_val, cutoff=cutoff, mesa=mesa, predi_out_dir=predi_out_dir, multi_out_dir=multi_out_dir, \
+			 phenotype=phenotype, p_val=p_val, cutoff=cutoff, mesa=mesa, assoc_out_dir=assoc_out_dir, multi_out_dir=multi_out_dir, \
 			 out_prefix=out_prefix)
