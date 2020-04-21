@@ -6,7 +6,7 @@ import os, argparse, warnings
 p = argparse.ArgumentParser("Run the proper MetaXcan pipeline based upon input given")
 # Argumets required for dosage and GWAS
 gen = p.add_argument_group(title="General use flags")
-gen.add_argument("-s", "-software", required=True, help="Path to the 'software' directory within the MetaXcan package (see Wiki for download instrucitons)")
+gen.add_argument("-s", "--software", required=True, help="Path to the 'software' directory within the MetaXcan package (see Wiki for download instrucitons)")
 gen.add_argument("-d", "--db_dir", required=True, help="Path to the model directory (containing *.db files) upon which to predict")
 gen.add_argument("--out_prefix", default='', help="Text to add to the beginning of every file name produced by this run")
 model = gen.add_mutually_exclusive_group()
