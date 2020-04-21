@@ -9,12 +9,12 @@ def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotyp
                 	os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
                             " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
                           	" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+assoc_out_dir+"/"+out_prefix+tissue+"_predict.csv"+
-                     				" --verbosity 9 --throw")
+                     				" --throw")
 	if not mesa:
 		# Call SMultiXcan
 		os.system("python3 "+software+"/SMulTiXcan.py --models_folder "+model+" --models_name_pattern '(.*).db' --snp_covariance "+snp_cov+
 			        " --gwas_file "+GWAS+" --snp_col "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
-			        " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+predi_out_dir+" --verbosity 9 --throw"+
+			        " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+assoc_out_dir+" --verbosity 9 --throw"+
 			        " --metaxcan_filter '"+out_prefix+"(.*)_predict.csv' --metaxcan_file_name_parse_pattern '"+out_prefix+"()(.*)_predict.csv'"+
 			        " --output "+multi_out_dir+"/SMulTiXcan.txt"+cutoff)
 
