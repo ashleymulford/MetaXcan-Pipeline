@@ -13,7 +13,7 @@ model = gen.add_mutually_exclusive_group()
 model.add_argument("--mashr", action="store_true", help="Specify if mashr models are being used")
 model.add_argument("--mesa", action="store_true", help="Specify if MulTiXcan.py and SMulTiXcan.py should not be run, such as when MESA models are being used")
 gen.add_argument("--assoc_out_dir", required=True, help="Output from PrediXcan.py or SPrediXcan.py")
-gen.add_argument("--multi_out_dir", help="Output from MulTiXcan.py or SMulTiXcan.py")
+gen.add_argument("--multi_out_dir", default='', help="Output from MulTiXcan.py or SMulTiXcan.py")
 gen.add_argument("--pval", help="P-value cutoff for use in graphing results")
 gen.add_argument("--no_plot", action="store_true", help="Prevents the pipeline from generating plots")
 gen.add_argument("--chrom_anno_path", default='', help="Path to chrom_anno_gtexv*.txt for plotting")
@@ -79,7 +79,7 @@ if not arg.mesa and not os.path.exists(arg.multi_out_dir):
 
 ## Warnings
 # Warn if --software doesn't end with software
-if arg.software[-8:] != "software":
+if arg.software[-9:] != "software/":
     warnings.warn("Folder defined by --software is not named 'software'. If your code doesn't run, re-fork the MetaXcan github and point --software at the software folder in the MetaXcan folder")
 # Warn if --mesa and --multi_out_dir were used
 if arg.mesa and arg.multi_out_dir:
@@ -154,8 +154,8 @@ else:
     model_type = " --mashr" if arg.mashr else " --mesa" if arg.mesa else ""
 
     os.system("python3 dosage_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --geno_dir "+arg.geno_dir+
-              " --geno_file_pattern '"+arg.geno_file_pattern+"' --sample_path "+arg.sample_path+" --out_prefix "+arg.out_prefix+
-              " --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+" --pheno_prefix "+arg.pheno_col+" --pred_out_dir "+arg.pred_out_dir+
+              " --geno_file_pattern '"+arg.geno_file_pattern+"' --sample_path "+arg.sample_path+" --out_prefix '"+arg.out_prefix+
+              "' --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+" --pheno_prefix '"+arg.pheno_prefix+"' --pred_out_dir "+arg.pred_out_dir+
               " --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+model_type)
 
 
@@ -164,8 +164,9 @@ else:
 # #################################
 gwas_flag = " --gwas" if arg.gwas else ""
 pval = " --pval "+str(arg.pval) if arg.pval else ""
-os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
-          " --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+pval+gwas_flag)
+multi_out = " --multi_out_dir "+arg.multi_out_dir if arg.multi_out_dir else ""
+os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+
+          pval+gwas_flag+multi_out)
 
 
 # ####################
@@ -175,7 +176,7 @@ if not arg.no_plot:
     if not os.path.isfile(arg.chrom_anno_path):
         raise FileNotFoundError("Chrom_anno file (--chrom_anno_path) is invalid while attempting to plot")
     os.system("python3 get_qqman_plot_inputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
-              " --out_prefix "+arg.out_prefix+" --pheno_prefix "+arg.pheno_prefix+" --chrom_anno_path "+arg.chrom_anno_path)
+              " --out_prefix '"+arg.out_prefix+"' --pheno_prefix "+arg.pheno_prefix+" --chrom_anno_path "+arg.chrom_anno_path)
     os.system("Rscript qqman_plots.R")
 
     if not arg.gwas:
