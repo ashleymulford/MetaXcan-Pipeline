@@ -51,7 +51,7 @@ arg=p.parse_args()
 # #####################################
 ## Exceptions ##
 # software doesn't contain PrediXcan.py, Predict.py, MulTiXcan.py, SPrediXcan.py, SMultiXcan.py
-if not ["PrediXcan.py", "Predict.py", "MulTiXcan.py", "SPrediXcan.py", "SMultiXcan.py"] in os.listdir(arg.software):
+if not ["PrediXcanAssociation.py", "Predict.py", "MulTiXcan.py", "SPrediXcan.py", "SMulTiXcan.py"] in os.listdir(arg.software):
     raise FileNotFoundError("Folder defined by --software does not contain the necessary files. It must be pointing to the software folder from the MetaXcan: https://github.com/hakyimlab/MetaXcan/tree/master/software")
 # no dbs
 if not os.path.isfile(arg.db_dir+"/*.db"):
