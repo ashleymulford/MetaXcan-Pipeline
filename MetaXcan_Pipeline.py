@@ -50,18 +50,18 @@ arg=p.parse_args()
 # ### Test for valid general inputs ###
 # #####################################
 ## File paths shouldn't end in / ##
-if arg.software[-1] == "/":
-    arg.software = arg.software[:-1]
-if arg.db_dir[-1] == "/":
-    arg.db_dir = arg.db_dir[:-1]
-if arg.assoc_out_dir[-1] == "/":
-    arg.assoc_out_dir = arg.assoc_out_dir[:-1]
-if arg.multi_out_dir[-1] == "/":
-    arg.multi_out_dir = arg.multi_out_dir[:-1]
-if arg.geno_dir and arg.geno_dir[-1] == "/":
-    arg.geno_dir = arg.geno_dir[:-1]
-if arg.pred_out_dir and arg.pred_out_dir[-1] == "/":
-    arg.pred_out_dir = arg.pred_out_dir[:-1]
+if arg.software[-1] != "/":
+    arg.software = arg.software + "/"
+if arg.db_dir[-1] != "/":
+    arg.db_dir = arg.db_dir + "/"
+if arg.assoc_out_dir[-1] != "/":
+    arg.assoc_out_dir = arg.assoc_out_dir + "/"
+if arg.multi_out_dir[-1] != "/":
+    arg.multi_out_dir = arg.multi_out_dir + "/"
+if arg.geno_dir and arg.geno_dir[-1] != "/":
+    arg.geno_dir = arg.geno_dir + "/"
+if arg.pred_out_dir and arg.pred_out_dir[-1] != "/":
+    arg.pred_out_dir = arg.pred_out_dir + "/"
 
 ## Exceptions ##
 # software doesn't contain PrediXcan.py, Predict.py, MulTiXcan.py, SPrediXcan.py, SMultiXcan.py
@@ -163,7 +163,7 @@ else:
 # ### Prep outputs for plotting ###
 # #################################
 gwas_flag = " --gwas" if arg.gwas else ""
-pval = " --pval "+arg.pval if arg.pval else ""
+pval = " --pval "+str(arg.pval) if arg.pval else ""
 os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
           " --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+pval+gwas_flag)
 
