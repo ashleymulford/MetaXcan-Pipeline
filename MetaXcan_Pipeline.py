@@ -14,7 +14,7 @@ model.add_argument("--mashr", action="store_true", help="Specify if mashr models
 model.add_argument("--mesa", action="store_true", help="Specify if MulTiXcan.py and SMulTiXcan.py should not be run, such as when MESA models are being used")
 gen.add_argument("--assoc_out_dir", required=True, help="Output from PrediXcan.py or SPrediXcan.py")
 gen.add_argument("--multi_out_dir", help="Output from MulTiXcan.py or SMulTiXcan.py")
-gen.add_argument("--pval", type=float, help="P-value cutoff for use in graphing results")
+gen.add_argument("--pval", help="P-value cutoff for use in graphing results")
 gen.add_argument("--no_plot", action="store_true", help="Prevents the pipeline from generating plots")
 gen.add_argument("--chrom_anno_path", default='', help="Path to chrom_anno_gtexv*.txt for plotting")
 
@@ -149,20 +149,6 @@ else:
     ## Generate warnings if genotype flags were provided when dosage is run ##
     if arg.gwas:
          warnings.warn("GWAS file (--gwas_file) specified, but will not be used")
-    if arg.snp_cov:
-         warnings.warn("SNP covariance file (--snp_cov) speficied, but will not be used")
-    if arg.cutoff_condition_number or arg.cutoff_eigen_ratio or arg.cutoff_threshold or arg.cutoff_trace_ratio:
-         warnings.warn("Cutoff (--cutoff_...) speficied, but will not be used")
-    if arg.snp_col:
-         warnings.warn("SNPs column name (--snp_col) specified, but will not be used")
-    if arg.effect_col:
-         warnings.warn("Effect allele column name (--effect_col) specified, but will not be used")
-    if arg.noneffect_col:
-         warnings.warn("Non-effect allele column name (--noneffect_col) specified, but will not be used")
-    if arg.phenotype_col:
-         warnings.warn("Phenotype column name (--phenotype_col, --beta_col) specified, but will not be used")
-    if arg.p_val_col:
-        warnings.warn("P-value column name (-p, --p_val_col) specified, but will not be used")
 
     ## Format flags and run dosage_pipeline.py ##
     model_type = " --mashr" if arg.mashr else " --mesa" if arg.mesa else ""
