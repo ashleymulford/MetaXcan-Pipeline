@@ -1,95 +1,70 @@
-#Import necessary package
-#Import necessary package
-import pandas as pd
-import argparse
-from os import listdir
-from os.path import isfile, join
+#Import necessary libraries
+library(data.table)
+library(dplyr)
+library(ggplot2)
 
-#combine (S)PrediXcan outputs into single dataframe
-def combine_assoc(assoc_out_dir, gwas):
-  files = [f for f in listdir(assoc_out_dir) if isfile(join(assoc_out_dir, f))]
-  full_paths = []
-  for f in files:
-    path = assoc_out_dir+f
-    full_paths.append(path)
-  df_list = []
-  for i in range(0, len(full_paths)):
-    file = full_paths[i]
-    tiss = files[i]
-    if (gwas):
-      assoc = pd.read_csv(file, delimiter = ",")
-    else:
-      assoc = pd.read_csv(file, delimiter = "\t")
-    #add column for tissue
-    assoc["tiss"] = tiss
-    df_list.append(assoc)
-  combo = pd.concat(df_list)
-  return combo
+#function to paste
+"%&%" = function(a,b) paste(a,b,sep="")
 
-#read in (S)MulTiXcan output
-def get_multi(multi_out_dir):
-  files = [f for f in listdir(multi_out_dir) if isfile(join(multi_out_dir, f))]
-  for file in files:
-    path = multi_out_dir+file
-    multi = pd.read_csv(path, delimiter = "\t")
-  return multi
+input_files<-fread("input_file_names_pred.txt", header = FALSE)
+
+pheno_path<-input_files$V1[1]
+pred_dir<-input_files$V1[2]
+out_prefix<-input_files$V1[3]
+pheno_col<-input_files$V1[4]
+model_type<-input_filesV1[5]
+pheno_prefix<-input_files$V1[6]
+
+#Pheno file:
+x_pheno<-fread(pheno_path)
+x_pheno<-select(x_pheno, pheno_col)
+
+sig_files<-fread("sig_file_names.txt", header = FALSE)
+
+names<-sig_files$V1
+
+for (name in names){
   
-#create new data frame with only significant genes, filtered by pval threshold
-def get_sig(combo, pval):
-  sig = combo.loc[combo['pvalue'] <= float(pval)]
-  sig = sig.sort_values(by=['pvalue'])
-  return sig
-
-
-#Create flags:
-parser = argparse.ArgumentParser()
-parser.add_argument("--assoc_out_dir", required=True, help = "directory the PrediXcan association output will go into")
-parser.add_argument("--multi_out_dir", default=" ", help = "optional; directory the MulTiXcan assocation output will go into")
-parser.add_argument("--out_prefix", required=True, help = "prefix for output files")
-parser.add_argument("--pheno_prefix", help = "name of phenotype, will be added to association output file names")
-parser.add_argument("--pval", default=0.05, help = "p-value threshold, will only analyze genes with p-values that meet this threshold")
-parser.add_argument("--gwas", action="store_true", help = "optional; specify if gwas_pipeline.py was used")
-
-
-#parse arguments
-p = parser.parse_args()
-assoc_out_dir = p.assoc_out_dir
-multi_out_dir = p.multi_out_dir
-out_prefix = p.out_prefix
-pheno_prefix = p.pheno_prefix
-pval = p.pval
-gwas = p.gwas
-
-
-#run methods
-assoc_combo = combine_assoc(assoc_out_dir, gwas)
-assoc_sig = get_sig(assoc_combo, pval)
-
-if multi_out_dir != " ":
-  multi = get_multi(multi_out_dir)
-  multi_sig = get_sig(multi, pval)
-
-
-files_output = []
-
-#output dataframes with signifcant genes:
-if (gwas):
-  assoc_combo.to_csv(out_prefix+"_sassoc_all_tissues.txt", sep = "\t", index = None)
-  assoc_sig.to_csv(out_prefix+"_sassoc_sig.txt", sep = "\t", index = None)
-  files_output.append(out_prefix+"_sassoc_sig.txt")
-  if multi_out_dir != " ":
-    multi_sig.to_csv(out_prefix+"_smulti_sig.txt", sep = "\t", index = None)
-    files_output.append(out_prefix+"_smulti_sig.txt")
-else:
-  assoc_combo.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_all_tissues.txt", sep = "\t", index = None)
-  assoc_sig.to_csv(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt", sep = "\t", index = None)
-  files_output.append(out_prefix+"_"+pheno_prefix+"_assoc_sig.txt")
-  if multi_out_dir != " ":
-    multi_sig.to_csv(out_prefix+"_"+pheno_prefix+"_multi_sig.txt", sep = "\t", index = None)
-    files_output.append(out_prefix+"_"+pheno_prefix+"_multi_sig.txt")
-
-file = open("sig_file_names.txt", "w")
-
-for item in files_output:
-  file.write(item + "\n") 
-
+  sig_hits <- fread(name)
+  top_hit <- sig_hits[1, ]
+  
+  is_assoc<-grepl("assoc", name, fixed = TRUE)
+  is_multi<-grepl("multi", name, fixed = TRUE)
+  
+  if (is_assoc) {
+    tiss<-top_hit$tiss
+    pred_file<-sub("association", "predict", tiss)
+    pred_file<-sub(pheno_prefix %&% "_" , "", pred_file)
+  }
+  
+  
+  if (is_multi) {
+    tiss<-top_hit$m_i_best
+    pred_file<-paste(out_prefix, "_", model_type, "_", tiss, "_predict.txt", sep = "")
+  }
+  
+  
+  gene_id<-top_hit$gene
+  
+  #Predicted Expression file:
+  y_pred_matrix<-fread(pred_dir %&% pred_file)
+  
+  gene_exp<-select(y_pred_matrix, gene_id)
+  
+  xy_info<-cbind(x_pheno, gene_exp)
+  
+  
+  #Make Plot:
+  pdf(out_prefix %&% "_" %&% pheno_prefix %&% "_" %&% gene_id %&% "_predicted_expression.pdf")
+  print(ggplot(xy_info, aes_string(x = pheno_col , y = gene_id)) +
+    geom_jitter(size = 0.75, color = "#ec328c") + 
+    geom_density_2d(color = "#1EA1E7") + 
+    stat_smooth(method="lm", se = TRUE, fullrange = TRUE, color = "#4DB94D") + 
+    scale_x_continuous(name = "Predicted gene expression") + 
+    scale_y_continuous(name = pheno_col) + 
+    theme_bw() + 
+    theme(text = element_text(size = 12), plot.title = element_text(hjust = 0.5)) +
+    ggtitle(out_prefix %&% " " %&% pheno_prefix %&% " " %&% gene_id %&% " Predicted Expression"))
+  dev.off()
+  
+}
