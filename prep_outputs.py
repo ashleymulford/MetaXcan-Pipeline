@@ -47,7 +47,7 @@ parser.add_argument("--assoc_out_dir", required=True, help = "directory the Pred
 parser.add_argument("--multi_out_dir", default=" ", help = "optional; directory the MulTiXcan assocation output will go into")
 parser.add_argument("--out_prefix", required=True, help = "prefix for output files")
 parser.add_argument("--pheno_prefix", help = "name of phenotype, will be added to association output file names")
-parser.add_argument("--pval", default=0.01, help = "p-value threshold, will only analyze genes with p-values that meet this threshold")
+parser.add_argument("--pval", default=0.05, help = "p-value threshold, will only analyze genes with p-values that meet this threshold")
 parser.add_argument("--gwas", action="store_true", help = "optional; specify if gwas_pipeline.py was used")
 
 
