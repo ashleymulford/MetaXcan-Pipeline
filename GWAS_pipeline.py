@@ -8,7 +8,7 @@ def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotyp
                 	tissue = file[:-3]
                 	os.system("python3 "+software+"SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
                             " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
-                          	" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+assoc_out_dir+"/"+out_prefix+tissue+"_predict.csv"+
+                          	" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+assoc_out_dir+out_prefix+tissue+"_predict.csv"+
                      				" --throw")
 	if not mesa:
 		# Call SMultiXcan
@@ -16,7 +16,7 @@ def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotyp
 			        " --gwas_file "+GWAS+" --snp_col "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
 			        " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+assoc_out_dir+" --verbosity 9 --throw"+
 			        " --metaxcan_filter '"+out_prefix+"(.*)_predict.csv' --metaxcan_file_name_parse_pattern '"+out_prefix+"()(.*)_predict.csv'"+
-			        " --output "+multi_out_dir+out_prefix+"_smult.txt"+cutoff)
+			        " --output "+multi_out_dir+out_prefix+"_smulti.txt"+cutoff)
 
 # Parse args
 p = argparse.ArgumentParser()
@@ -71,10 +71,6 @@ if not mesa:
 	if cutoff[-4:] == "None":
 		print("Cutoff was not defined, 0.4 eigen ratio cutoff will be used")
 		cutoff = " --cutoff_eigen_ratio 0.4"
-# TODO check if software is there
-# TODO check output paths
-# TODO check GWAS file?
-# TODO check column names?
 
 # Make sure file paths don't end in a /
 if software[-1] != "/":

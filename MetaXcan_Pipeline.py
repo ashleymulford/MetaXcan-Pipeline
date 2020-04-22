@@ -16,7 +16,7 @@ gen.add_argument("--assoc_out_dir", required=True, help="Output from PrediXcan.p
 gen.add_argument("--multi_out_dir", default='', help="Output from MulTiXcan.py or SMulTiXcan.py")
 gen.add_argument("--pval", help="P-value cutoff for use in graphing results")
 gen.add_argument("--no_plot", action="store_true", help="Prevents the pipeline from generating plots")
-gen.add_argument("--chrom_anno_path", default='', help="Path to chrom_anno_gtexv*.txt for plotting")
+gen.add_argument("--chrom_anno_path", default='chrom_anno_gtexv8.txt', help="Path to chrom_anno_gtexv*.txt for plotting")
 
 # Arguments for dosage
 dos = p.add_argument_group(title="Dosage",description="Flags for running MetaXcan based on a individual genotypes")
@@ -43,8 +43,12 @@ gwas.add_argument("--effect_col", default="effect_allele", help="Name of the col
 gwas.add_argument("--noneffect_col", default="noneffect_allele", help="Name of the column in the GWAS summary statistics with the noneffect allele")
 gwas.add_argument("--phenotype_col", "--beta_col", default="beta", help="Name of the column in the GWAS summary statistics with the phenotype data")
 gwas.add_argument("-p", "--p_val_col", default="p_value", help="Name of the column in the GWAS summary statistics with the p-values")
+
+## Create argument parser
 arg=p.parse_args()
 
+# Folder that this file is in, for use in calling future scripts
+thisFolder = os.path.dirname(os.path.abspath(__file__))
 
 # #####################################
 # ### Test for valid general inputs ###
@@ -121,7 +125,7 @@ if arg.gwas:
              " --cutoff_eigen_ratio "+str(arg.cutoff_eigen_ratio)
     mesa = " --mesa" if arg.mesa else ""
     
-    os.system("python3 GWAS_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --gwas_file "+arg.gwas_file+cutoff+
+    os.system("python3 "+thisFolder+"/GWAS_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --gwas_file "+arg.gwas_file+cutoff+
               " --snp_cov "+arg.snp_cov+" --snp_col "+arg.snp_col+" --effect "+arg.effect_col+" --noneffect "+arg.noneffect_col+
               " --beta "+arg.phenotype_col+" --p_val "+arg.p_val_col+" --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
               " --out_prefix '"+arg.out_prefix+"'"+mesa)
@@ -153,7 +157,7 @@ else:
     ## Format flags and run dosage_pipeline.py ##
     model_type = " --mashr" if arg.mashr else " --mesa" if arg.mesa else ""
 
-    os.system("python3 dosage_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --geno_dir "+arg.geno_dir+
+    os.system("python3 "+thisFolder+"/dosage_pipeline.py --db_dir "+arg.db_dir+" --scripts_dir "+arg.software+" --geno_dir "+arg.geno_dir+
               " --geno_file_pattern '"+arg.geno_file_pattern+"' --sample_path "+arg.sample_path+" --out_prefix '"+arg.out_prefix+
               "' --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+" --pheno_prefix '"+arg.pheno_prefix+"' --pred_out_dir "+arg.pred_out_dir+
               " --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+model_type)
@@ -165,7 +169,7 @@ else:
 gwas_flag = " --gwas" if arg.gwas else ""
 pval = " --pval "+str(arg.pval) if arg.pval else ""
 multi_out = " --multi_out_dir "+arg.multi_out_dir if arg.multi_out_dir else ""
-os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+
+os.system("python3 "+thisFolder+"/prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+
           pval+gwas_flag+multi_out)
 
 
@@ -175,11 +179,12 @@ os.system("python3 prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --out_p
 if not arg.no_plot:
     if not os.path.isfile(arg.chrom_anno_path):
         raise FileNotFoundError("Chrom_anno file (--chrom_anno_path) is invalid while attempting to plot")
-    os.system("python3 get_qqman_plot_inputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
+    os.system("python3 "+thisFolder+"/get_qqman_plot_inputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
               " --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"' --chrom_anno_path "+arg.chrom_anno_path)
-    os.system("Rscript qqman_plots.R")
+    os.system("Rscript "+thisFolder+"/qqman_plots.R")
 
     if not arg.gwas:
-        os.system("python3 get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
-                  " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix '"+arg.pheno_prefix+"' --out_prefix '"+arg.out_prefix+"'")
-        os.system("Rscript pred_express_plots.R")
+        model_type = " --mashr" if arg.mashr else " --mesa" if arg.mesa else ""
+        os.system("python3 "+thisfolder+"/get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
+                  " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix '"+arg.pheno_prefix+"' --out_prefix '"+arg.out_prefix+"'"+model_type)
+        os.system("Rscript "+thisFolder+"/pred_express_plots.R")
