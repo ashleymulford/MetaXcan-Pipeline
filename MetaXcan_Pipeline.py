@@ -176,10 +176,10 @@ if not arg.no_plot:
     if not os.path.isfile(arg.chrom_anno_path):
         raise FileNotFoundError("Chrom_anno file (--chrom_anno_path) is invalid while attempting to plot")
     os.system("python3 get_qqman_plot_inputs.py --assoc_out_dir "+arg.assoc_out_dir+" --multi_out_dir "+arg.multi_out_dir+
-              " --out_prefix '"+arg.out_prefix+"' --pheno_prefix "+arg.pheno_prefix+" --chrom_anno_path "+arg.chrom_anno_path)
+              " --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"' --chrom_anno_path "+arg.chrom_anno_path)
     os.system("Rscript qqman_plots.R")
 
     if not arg.gwas:
         os.system("python3 get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
-                  " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix "+arg.pheno_prefix+" --out_prefix"+arg.out_prefix)
+                  " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix '"+arg.pheno_prefix+"' --out_prefix '"+arg.out_prefix+"'")
         os.system("Rscript pred_express_plots.R")

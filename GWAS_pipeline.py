@@ -6,17 +6,17 @@ def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotyp
 	for file in os.listdir(model):
         	if file.endswith(".db"):
                 	tissue = file[:-3]
-                	os.system("python3 "+software+"/SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
+                	os.system("python3 "+software+"SPrediXcan.py --model_db_path "+model+"/"+tissue+".db --covariance "+model+"/"+tissue+".txt.gz"+
                             " --gwas_file "+GWAS+" --snp_column "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
                           	" --beta_column "+phenotype+" --pvalue_column "+p_val+" --output_file "+assoc_out_dir+"/"+out_prefix+tissue+"_predict.csv"+
                      				" --throw")
 	if not mesa:
 		# Call SMultiXcan
-		os.system("python3 "+software+"/SMulTiXcan.py --models_folder "+model+" --models_name_pattern '(.*).db' --snp_covariance "+snp_cov+
+		os.system("python3 "+software+"SMulTiXcan.py --models_folder "+model+" --models_name_pattern '(.*).db' --snp_covariance "+snp_cov+
 			        " --gwas_file "+GWAS+" --snp_col "+snp_col+" --effect_allele_column "+effect+" --non_effect_allele_column "+noneffect+
 			        " --beta_column "+phenotype+" --pvalue_column "+p_val+" --metaxcan_folder "+assoc_out_dir+" --verbosity 9 --throw"+
 			        " --metaxcan_filter '"+out_prefix+"(.*)_predict.csv' --metaxcan_file_name_parse_pattern '"+out_prefix+"()(.*)_predict.csv'"+
-			        " --output "+multi_out_dir+"/SMulTiXcan.txt"+cutoff)
+			        " --output "+multi_out_dir+out_prefix+"_smult.txt"+cutoff)
 
 # Parse args
 p = argparse.ArgumentParser()
@@ -77,14 +77,14 @@ if not mesa:
 # TODO check column names?
 
 # Make sure file paths don't end in a /
-if software[-1] == "/":
-	software = software[:-1]
-if model[-1] == "/":
-	model = model[:-1]
-if assoc_out_dir[-1] == "/":
-	assoc_out_dir = assoc_out_dir[:-1]
-if multi_out_dir[-1] == "/":
-	multi_out_dir = multi_our_dir[:-1]
+if software[-1] != "/":
+	software = software + "/"
+if model[-1] != "/":
+	model = model + "/"
+if assoc_out_dir[-1] != "/":
+	assoc_out_dir = assoc_out_dir + "/"
+if multi_out_dir[-1] != "/":
+	multi_out_dir = multi_our_dir + "/"
 
 if __name__ == "__main__":
 	runGWAS_pipeline(software=software, model=model, snp_cov=snp_cov, GWAS=GWAS, snp_col=snp_col, effect=effect, noneffect=noneffect, \
