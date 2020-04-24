@@ -12,7 +12,7 @@ pheno_path<-input_files$V1[1]
 pred_dir<-input_files$V1[2]
 out_prefix<-input_files$V1[3]
 pheno_col<-input_files$V1[4]
-model_type<-input_filesV1[5]
+model_type<-input_files$V1[5]
 pheno_prefix<-input_files$V1[6]
 
 #Pheno file:
