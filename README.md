@@ -57,7 +57,7 @@ We have provided a small sample of test data in this repository. Genotype data c
 - Phenotype file: YRI_cape_pheno.txt
 - GWAS sum stats file: YRI_GWAS_chr22_cape.assoc.txt.gz
 
-To run the full pipeline, please run MetaXcan_Pipeline.py
+### To run the full pipeline, please run MetaXcan_Pipeline.py
 ### For more information on how to run, please refer to our wiki.
 
 
