@@ -185,6 +185,6 @@ if not arg.no_plot:
 
     if not arg.gwas:
         model_type = " --mashr" if arg.mashr else " --mesa" if arg.mesa else ""
-        os.system("python3 "+thisfolder+"/get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
+        os.system("python3 "+thisFolder+"/get_pred_plot_inputs.py --pheno_path "+arg.pheno_path+" --pheno_col "+arg.pheno_col+
                   " --pred_out_dir "+arg.pred_out_dir+" --pheno_prefix '"+arg.pheno_prefix+"' --out_prefix '"+arg.out_prefix+"'"+model_type)
         os.system("Rscript "+thisFolder+"/pred_express_plots.R")
