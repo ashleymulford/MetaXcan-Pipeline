@@ -58,6 +58,6 @@ We have provided a small sample of test data in this repository. Genotype data c
 - GWAS sum stats file: YRI_GWAS_chr22_cape.assoc.txt.gz
 
 #### To run the full pipeline, please run MetaXcan_Pipeline.py
-#### For more information on how to run, please refer to the MetaXcan_Pipeline.py Tutorial in our wiki. Please read in full and make necessary directories for output prior to running as explained under Requirements. https://github.com/ashleymulford/MetaXcan-Pipeline/wiki/MetaXcan_Pipeline.py-Tutorial
+#### For more information on how to run, please refer to the MetaXcan_Pipeline.py Tutorial in our wiki. Please read in full and make necessary directories for output prior to running as explained under Requirement Prior to Running. https://github.com/ashleymulford/MetaXcan-Pipeline/wiki/MetaXcan_Pipeline.py-Tutorial
 
 
