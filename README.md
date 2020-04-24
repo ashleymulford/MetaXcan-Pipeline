@@ -48,9 +48,12 @@ Additionally, be sure to leave the models in the folders them come in once those
     
 # How to Run
 ### Key Assumption:
-This script assumes that outputs will be stored in corresponing directories. Predict.py outputs, PrediXcanAssociation.py outputs, S-PrediXcan.py outputs, MulTiXcan.py output, and S-MulTiXcan.py output must be each be stored in different directories for subsequent plotting to be successful. Please make these directories prior to running and specify them as arugments using the corresponding flags, see wiki for details.
+This script assumes that outputs will be stored in corresponing directories. Predict.py outputs, PrediXcanAssociation.py outputs, S-PrediXcan.py outputs, MulTiXcan.py output, and S-MulTiXcan.py output must be each be stored in different directories and must be only files in these directories for subsequent plotting to be successful. Please make these directories prior to running and specify them as arugments using the corresponding flags, see wiki for details.
 
 ## Using Test Data:
+We have provided a small sample of test data in this repository. Genotype data comes from the 1000 Genomes Project; we are using the Yoruba population and provided chr22 in the proper dosage format. 
+
+
 
 
 #### For more information on how to run, please refer to our wiki.
