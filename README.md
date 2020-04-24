@@ -51,9 +51,11 @@ Additionally, be sure to leave the models in the folders them come in once those
 This script assumes that outputs will be stored in corresponing directories. Predict.py outputs, PrediXcanAssociation.py outputs, S-PrediXcan.py outputs, MulTiXcan.py output, and S-MulTiXcan.py output must be each be stored in different directories and must be only files in these directories for subsequent plotting to be successful. Please make these directories prior to running and specify them as arugments using the corresponding flags, see wiki for details.
 
 ## Using Test Data:
-We have provided a small sample of test data in this repository. Genotype data comes from the 1000 Genomes Project; we are using the Yoruba population and provided chr22 in the proper dosage format. 
-
-
+We have provided a small sample of test data in this repository. Genotype data comes from the 1000 Genomes Project; we are using the Yoruba population and have provided chromosome 22 in dosage format. We have also provided a samples file, containing the FIDs and IIDs for each individual in the YRI population, and a phenotype file for capecitabine AUC for the YRI population. Additionally, we have provdied GWAS summary statistics from a GWAS conducted on the above genotype and phenotype. All files are properly formatted. If gzipped, please leave them as such.
+- Genotype file: YRI_chr22.txt.gz
+- Samples file: YRI_samples.txt
+- Phenotype file: YRI_cape_pheno.txt
+- GWAS sum stats file: YRI_GWAS_chr22_cape.assoc.txt.gz
 
 
 #### For more information on how to run, please refer to our wiki.
