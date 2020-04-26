@@ -3,9 +3,9 @@ import argparse
 #Create flags:
 parser = argparse.ArgumentParser()
 parser.add_argument("--assoc_out_dir", required=True, help = "directory the PrediXcan Association output will go into")
-parser.add_argument("--multi_out_dir", required=True, help = "directory the MulTiXcan output will go into")
+parser.add_argument("--multi_out_dir", default = "", help = "directory the MulTiXcan output will go into")
 parser.add_argument("--out_prefix", required=True, help = "prefix for output files")
-parser.add_argument("--pheno_prefix", default = "", help = "Optional, name of phenotype")
+parser.add_argument("--pheno_prefix", default = "NA", help = "Optional, name of phenotype")
 parser.add_argument("--chrom_anno_path", required=True, help = "path to bp chromosome annotation file")
 
 
