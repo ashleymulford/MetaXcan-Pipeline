@@ -8,7 +8,7 @@ p = argparse.ArgumentParser("Run the proper MetaXcan pipeline based upon input g
 gen = p.add_argument_group(title="General use flags")
 gen.add_argument("-s", "--software", required=True, help="Path to the 'software' directory within the MetaXcan package (see Wiki for download instrucitons)")
 gen.add_argument("-d", "--db_dir", required=True, help="Path to the model directory (containing *.db files) upon which to predict")
-gen.add_argument("--out_prefix", default='', help="Text to add to the beginning of every file name produced by this run")
+gen.add_argument("--out_prefix", required=True, help="Text to add to the beginning of every file name produced by this run")
 model = gen.add_mutually_exclusive_group()
 model.add_argument("--mashr", action="store_true", help="Specify if mashr models are being used")
 model.add_argument("--mesa", action="store_true", help="Specify if MulTiXcan.py and SMulTiXcan.py should not be run, such as when MESA models are being used")
@@ -60,7 +60,7 @@ if arg.db_dir[-1] != "/":
     arg.db_dir = arg.db_dir + "/"
 if arg.assoc_out_dir[-1] != "/":
     arg.assoc_out_dir = arg.assoc_out_dir + "/"
-if arg.multi_out_dir[-1] != "/":
+if arg.multi_out_dir and arg.multi_out_dir[-1] != "/":
     arg.multi_out_dir = arg.multi_out_dir + "/"
 if arg.geno_dir and arg.geno_dir[-1] != "/":
     arg.geno_dir = arg.geno_dir + "/"
@@ -168,7 +168,7 @@ else:
 # #################################
 gwas_flag = " --gwas" if arg.gwas else ""
 pval = " --pval "+str(arg.pval) if arg.pval else ""
-multi_out = " --multi_out_dir "+arg.multi_out_dir if arg.multi_out_dir else ""
+multi_out = " --multi_out_dir "+arg.multi_out_dir if arg.multi_out_dir and not arg.mesa else ""
 os.system("python3 "+thisFolder+"/prep_outputs.py --assoc_out_dir "+arg.assoc_out_dir+" --out_prefix '"+arg.out_prefix+"' --pheno_prefix '"+arg.pheno_prefix+"'"+
           pval+gwas_flag+multi_out)
 
