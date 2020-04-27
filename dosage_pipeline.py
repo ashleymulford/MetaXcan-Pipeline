@@ -53,7 +53,7 @@ parser.add_argument("--pheno_col", required=True, help = "name of column in phen
 parser.add_argument("--pheno_prefix", required=True, help = "name of phenotype, will be added to association output file names")
 parser.add_argument("--pred_out_dir", required=True, help = "directory the prediction output will go into")
 parser.add_argument("--assoc_out_dir", required=True, help = "directory the PrediXcan association output will go into")
-parser.add_argument("--multi_out_dir", required=True, help = "directory the MulTiXcan assocation output will go into")
+parser.add_argument("--multi_out_dir", default = "", help = "directory the MulTiXcan assocation output will go into")
 
 
 #Parse arguments inputted by user:
