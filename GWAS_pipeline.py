@@ -33,7 +33,7 @@ p.add_argument("-p","--p_val", default="p_value", help="Name of the column conta
 p.add_argument("--snp_cov", help="File containing SNP covariance which comes in the model download (*_covariance.txt)")
 cutoff = p.add_mutually_exclusive_group()
 cutoff.add_argument("--cutoff_condition_number", type=int, help="Condition number of eigen values to use when truncated SVD components")
-cutoff.add_argument("--cutoff_eigen_ratio", default=None, type=float, help="Ratio of eigenvalues to the max eigenvalue, as threshold to use when truncating SVD components")   # Default
+cutoff.add_argument("--cutoff_eigen_ratio", default=0.4, type=float, help="Ratio of eigenvalues to the max eigenvalue, as threshold to use when truncating SVD components")   # Default
 cutoff.add_argument("--cutoff_threshold", type=float, help="Threshold of variance eigenvalues when truncating SVD")
 cutoff.add_argument("--cutoff_trace_ratio", type=float, help="Ratio of eigenvalues to trace, to use when truncating SVD")
 p.add_argument("--out_prefix", required=True, help="Text to add to the beginning of every file name produced by this run")
