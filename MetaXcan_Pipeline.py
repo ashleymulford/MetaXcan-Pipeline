@@ -34,7 +34,7 @@ gwas.add_argument("--gwas", action="store_true", help="Run SPrediXcan and SMulTi
 gwas.add_argument("--gwas_file", default='', help="File containing the GWAS summary statistics")
 gwas.add_argument("--snp_cov", default='', help="File containing the SNP covariance. This normally comes with the model download and usually ends with _covariance.txt)")
 cutoff = gwas.add_mutually_exclusive_group()
-cutoff.add_argument("--cutoff_condition_number", type=int, help="Condition number of eigen values to use when truncated SVD components")
+cutoff.add_argument("--cutoff_condition_number", type=int, help="Condition number of eigenvalues to use when truncating SVD components")
 cutoff.add_argument("--cutoff_eigen_ratio", default=0.4, type=float, help="Ratio of eigenvalues to the max eigenvalue, as threshold to use when truncating SVD components")
 cutoff.add_argument("--cutoff_threshold", type=float, help="Threshold of variance eigenvalues when truncating SVD")
 cutoff.add_argument("--cutoff_trace_ratio", type=float, help="Ratio of eigenvalues to trace, to use when truncating SVD")
