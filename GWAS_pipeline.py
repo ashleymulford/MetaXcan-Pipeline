@@ -21,10 +21,10 @@ def runGWAS_pipeline(software, model, GWAS, snp_col, effect, noneffect, phenotyp
 # Parse args
 p = argparse.ArgumentParser()
 p.add_argument("-d","--db_dir", required=True, help="Directory for the model to predict against (both *.db and *.txt.gz files")
-p.add_argument("-s","--scripts_dir", default="MetaXcan/software", help="Directory containing the MetaXcan scripts, called 'software' in the MetaXcan package")
+p.add_argument("-s","--software", required=True, help="Directory containing the MetaXcan scripts, called 'software' in the MetaXcan package")
 p.add_argument("-g","--gwas_file", required=True, help="File containing the GWAS summary statistics (*.assoc.txt.gz)")
-p.add_argument("--assoc_out_dir", default="MetaPipeOut", help="Output folder for SPrediXcan.py")
-p.add_argument("--multi_out_dir", default="MetaPipeOut", help="Output folder for SMultiXcan.py")
+p.add_argument("--assoc_out_dir", default="", help="Output folder for SPrediXcan.py")
+p.add_argument("--multi_out_dir", default="", help="Output folder for SMultiXcan.py")
 p.add_argument("--snp_col", default="variant_id", help="Name of the column containing SNP data in the GWAS summary statistics")
 p.add_argument("--effect","--effect_col", default="effect_allele", help="Name of the column containing the effect allele data in the GWAS summary statistics")
 p.add_argument("--noneffect","--noneffect_col", default="noneffect_allele", help="Name of the column containing the noneffect allele in the GWAS summary statistics")
@@ -36,12 +36,12 @@ cutoff.add_argument("--cutoff_condition_number", type=int, help="Condition numbe
 cutoff.add_argument("--cutoff_eigen_ratio", default=None, type=float, help="Ratio of eigenvalues to the max eigenvalue, as threshold to use when truncating SVD components")   # Default
 cutoff.add_argument("--cutoff_threshold", type=float, help="Threshold of variance eigenvalues when truncating SVD")
 cutoff.add_argument("--cutoff_trace_ratio", type=float, help="Ratio of eigenvalues to trace, to use when truncating SVD")
-p.add_argument("--out_prefix", default='', help="Text to add to the beginning of every file name produced by this run")
+p.add_argument("--out_prefix", required=True, help="Text to add to the beginning of every file name produced by this run")
 p.add_argument("--mesa", action="store_true", help="Flag should be used if mesa models are given. MulTiXcan will not be run.")
 
 a = p.parse_args()
 # Needed args
-software = a.scripts_dir
+software = a.software
 model = a.db_dir
 GWAS = a.gwas_file
 snp_col = a.snp_col
