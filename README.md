@@ -60,4 +60,12 @@ We have provided a small sample of test data in this repository. Genotype data c
 #### To run the full pipeline, please run MetaXcan_Pipeline.py
 #### For more information on how to run, please refer to the MetaXcan_Pipeline.py Tutorial in our wiki. Please read in full and make necessary directories for output prior to running as explained under Requirement Prior to Running. https://github.com/ashleymulford/MetaXcan-Pipeline/wiki/MetaXcan_Pipeline.py-Tutorial
 
+##### If running on the compbio server:
+- MetaXcan scripts can be found in: /data/amulford/MetaXcan/software
+- GTEx v8 Elastic Net models can be found in /data/amulford/gtex_v8_elastic_net/eqtl_dbs
+- MESA Elastic Net models can be found in /data/amulford/gtex_v8_elastic_net/mesa_dbs
+- GTEx v8 Mashr models can be found in /data/amulford/gtex_v8_mashr/eqtl_dbs
+
+
+
 
